@@ -5,7 +5,7 @@ import Button from '@/components/button'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+export default function Main() {
   return (
     <>
     <div className ='h-screen w-full bg-image'>

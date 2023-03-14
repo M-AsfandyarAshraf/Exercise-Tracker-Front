@@ -7,6 +7,7 @@ import Button from '@/components/button'
 import { useState, React } from 'react'
 import useSWR from 'swr'
 import axios from 'axios';
+// import 'use'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,10 +15,9 @@ export default function Login() {
 
   const [Email, SetEmail] =  useState("");
   const [Password, SetPassword] =  useState("");
-  const url = 'http://localhost:5000/'
+  const url = 'http://localhost:5000/login'
 
  
-
   const HandleSubmit  = async (e) =>
   {
     e.preventDefault();    
@@ -37,15 +37,17 @@ export default function Login() {
       }
       )
       const data = await result.json()
-      console.log(data)
-      localStorage.setItem("Token",data.Token) 
-      
-
-      window.location.replace("/")
+      if(data=="Logged In"){
+        window.location.replace("/home")
+      }
+      else{
+        alert(data);
+      }
+      console.log(data) 
 
     }
     catch(err){
-      alert("Invalid")
+      alert(err)
     }
   }
   
@@ -53,7 +55,7 @@ export default function Login() {
   return (
     <>
     <div className=' h-screen flex flex-col gap-4 justify-center items-center ' style={inter.style}> 
-    <Image src={"/../public/Logo.png"} width = {100} height={100} alt={"Exercise Tracker Logo"}></Image>
+    <Image src={"/../public/Logo.png"} width = {100} height={100} alt={"Exercise Tracker Logo"} className=" h-32 w-auto"></Image>
     <h1 className='text-7xl '>Log-In</h1>
     <span className='text-7lg '>New User?
       <Link href={'/signup'}><span className='text-7lg text-blue-500'> Create Account</span></Link>

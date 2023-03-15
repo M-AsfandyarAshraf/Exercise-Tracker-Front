@@ -1,0 +1,15 @@
+'use client'
+
+export default function Profile (){
+
+return(
+    <div>
+
+<h1>
+    Hello
+</h1>
+    </div>
+)
+
+
+}

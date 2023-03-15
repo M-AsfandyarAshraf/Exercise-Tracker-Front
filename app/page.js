@@ -1,11 +1,24 @@
+'use client'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import Link from 'next/link'
 import Button from '@/components/button'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Main() {
+
+
+  useEffect(() => {
+    if (localStorage.getItem("token") !== null)
+    {
+      window.location.replace('/home');
+    }
+
+  }, [])
+
   return (
     <>
     <div className ='h-screen w-full bg-image'>

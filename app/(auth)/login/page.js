@@ -19,14 +19,6 @@ const router = useRouter();
   const [Password, SetPassword] =  useState("");
 
  
-  // useEffect(() => {
-  //   if (localStorage.getItem('token') !== null )
-  //   {
-  //     window.location.replace('/home')
-  //   }
-  // })
-  
-
 
   const HandleSubmit  = async (e) =>
   {
@@ -52,6 +44,13 @@ const router = useRouter();
       {
         localStorage.setItem('token', data.token);
         // router.push('/home');
+        localStorage.setItem('User',
+          JSON.stringify({
+            "name": data.name,
+            "email": data.email,
+            "exercises": data.exercises
+          })
+        )
         window.location.replace("/home");
         
 

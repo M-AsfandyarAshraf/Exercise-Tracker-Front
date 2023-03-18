@@ -1,7 +1,5 @@
-'use client'
 
-
-export default function Signout() {
+const signOut = ()  => {
 
         
         localStorage.removeItem('token');
@@ -10,3 +8,5 @@ export default function Signout() {
         window.location.replace('/')
     
     }
+
+    module.exports = { signOut }

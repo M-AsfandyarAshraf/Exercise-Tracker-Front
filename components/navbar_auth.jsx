@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import '../app/globals.css';
+import { signOut } from "@/app/(auth)/signout/signout";
 
 const Navbar_Auth = () => {
   return (
@@ -18,7 +19,7 @@ const Navbar_Auth = () => {
           <Link href="/settings">Settings</Link>
         </li>
         <li className=" basis-20 hover:text-orange-500">
-          <Link href="/signout">Sign Out</Link>
+          <Link legacyBehavior href="/"><a onClick={signOut}>Sign Out</a></Link>
         </li>
         
       </ul>

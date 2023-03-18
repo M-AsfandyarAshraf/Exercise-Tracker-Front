@@ -1,15 +1,19 @@
 'use client'
 
-export default function Profile (){
+import Button from "@/components/button";
+import Card from "@/components/card";
 
-return(
-    <div>
+export default function Profile() {
 
-<h1>
-    Hello
-</h1>
-    </div>
-)
+    return (
+        <div>
+
+            <Card />         
+            <Button />   
+
+
+        </div>
+    )
 
 
 }

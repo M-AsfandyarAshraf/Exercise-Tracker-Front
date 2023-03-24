@@ -21,10 +21,13 @@ export default function Signup() {
   const router = useRouter();
 
     
-if (localStorage.getItem("token") !== null)
-{
-  router.push("/home");
-}
+  useEffect(() => {
+    if (localStorage.getItem("token") !== null)
+      {
+        router.push("/home");
+      }
+
+  })
 
 
 

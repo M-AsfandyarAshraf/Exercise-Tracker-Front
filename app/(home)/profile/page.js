@@ -8,8 +8,6 @@ export default function Profile() {
     return (
         <div>
 
-            <Card />         
-            <Button />   
 
 
         </div>

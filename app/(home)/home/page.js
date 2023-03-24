@@ -12,6 +12,11 @@ const Background = '/illustration.png';
 export default function Home() {
 
   const [User, setUser] = useState({});
+  const [title, setTitle] = useState("Running");
+  const [duration, setDuration] = useState(10);
+  const [list, setList] = useState([])
+  const [date, setDate] = useState(()=> Date.now());
+  
 
 
   useEffect(() => {
@@ -19,7 +24,92 @@ export default function Home() {
   }, [])
 
 
-  const handleSubmit = (e) => {
+
+  const getExercises = async () =>
+  {
+    
+    try{
+      const result  = await fetch("http://localhost:5000/exercises",
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+        },
+        body:JSON.stringify({
+          exercises:User.exercises,
+        })
+      }
+      )
+      const data = await result.json()
+      
+      if(data != null)
+      {
+       setList(data) ;
+      }
+      
+      else
+      {
+        throw(data);
+      }
+
+        }
+
+    catch(err){
+      alert(err)
+    }
+
+
+    
+    
+  }
+
+
+
+  const handleSubmit = async (e) => {
+    
+    e.preventDefault();    
+    
+    try{
+      const result  = await fetch("http://localhost:5000/exercise",
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+          "token": localStorage.getItem("token")
+        },
+        body:JSON.stringify({
+          title:title,
+          duration:duration,
+          date: date
+        })
+      }
+      )
+      const data = await result.json()
+      
+      if(data.exercises)
+      {
+        localStorage.setItem('User',
+          JSON.stringify({
+            "name": data.name,
+            "email": data.email,
+            "exercises": data.exercises
+          })
+        )
+      setUser(JSON.parse(localStorage.getItem('User')));
+      alert(data.message);
+      }
+      
+      else
+      {
+        throw(data.message);
+      }
+
+        }
+
+    catch(err){
+      alert(err)
+    }
+
 
   }
 
@@ -46,7 +136,7 @@ export default function Home() {
             <label htmlFor="my-modal-4" className="btn btn-outline btn-warning mt-20 text-white">➕ Add Exercise</label>
             <br></br>
             <br></br>
-            <label htmlFor="my-modal-5" className="btn btn-outline btn-error text-white">🔍View Exercises</label>
+            <label htmlFor="my-modal-5" onClick={getExercises} className="btn btn-outline btn-error text-white">🔍View Exercises</label>
 
 
           </div>
@@ -61,28 +151,24 @@ export default function Home() {
 
           <div className="stats stats-vertical lg:stats-horizontal shadow m-20">
 
-            <div className="stat">
+            <div className="stat hover:bg-orange-100">
               <div className="stat-title">Calories Burned</div>
               <div className="stat-value">31000</div>
-              <div className="stat-desc">Jan 1st - Feb 1st</div>
             </div>
 
-            <div className="stat">
+            <div className="stat hover:bg-orange-100">
               <div className="stat-title">Distance Covered</div>
               <div className="stat-value">4,200</div>
-              <div className="stat-desc">↗︎ 400 (22%)</div>
             </div>
 
-            <div className="stat">
+            <div className="stat hover:bg-orange-100">
               <div className="stat-title">Exercise Time</div>
               <div className="stat-value">1,200</div>
-              <div className="stat-desc">↘︎ 90 (14%)</div>
             </div>
 
-            <div className="stat">
+            <div className="stat hover:bg-orange-100">
               <div className="stat-title">Sessions Completed</div>
               <div className="stat-value">1,200</div>
-              <div className="stat-desc">↘︎ 90 (14%)</div>
             </div>
 
           </div>
@@ -99,7 +185,7 @@ export default function Home() {
             <h3 className="font-bold text-xl">Exercise Form</h3>
             <br></br>
             <label></label>
-            <select className="select select-warning w-full max-w-xs">
+            <select required onChange={(e) => setTitle(e.target.value)}  defaultValue={title}  className="select select-warning w-full max-w-xs">
               <option disabled>Select Exercise Type</option>
               <option defaultValue={"Running"}>Running</option>
               <option defaultValue={"Swimming"}>Swimming</option>
@@ -109,22 +195,22 @@ export default function Home() {
             </select>
             <br></br>
             <br></br>
-            <select className="select select-warning w-full max-w-xs">
-              <option disabled>Select Exercise Duration</option>
-              <option defaultValue={10}  >10 mins</option>
-              <option defaultValue={20}>20 mins</option>
-              <option defaultValue={30}>30 mins</option>
-              <option defaultValue={40}>40 mins</option>
-              <option defaultValue={50}>50 mins</option>
-              <option defaultValue={60}>60 mins</option>
+            <select required onChange={(e) => setDuration(e.target.value)}  defaultValue={duration} className="select select-warning w-full max-w-xs">
+              <option disabled>Select Exercise Duration (mins)</option>
+              <option defaultValue={10}>10</option>
+              <option defaultValue={20}>20</option>
+              <option defaultValue={30}>30</option>
+              <option defaultValue={40}>40</option>
+              <option defaultValue={50}>50</option>
+              <option defaultValue={60}>60</option>
             </select>
 
             <br></br>
             <br></br>
-            <input type={"date"}></input>
+            <input required onChange={(e) => setDate(e.target.value)} defaultValue={date} type={"date"} className=" border-2 rounded-lg border-warning w-full max-w-xs"></input>
 
             <div className="modal-action">
-              <button onClick={handleSubmit} className="btn btn-success">Confirm Exercise</button>
+              <button onClick={handleSubmit} type="submit" className="btn btn-success">Confirm Exercise</button>
               <label htmlFor="my-modal-4" className="btn btn-error">Close</label>
             </div>
           </div>
@@ -136,17 +222,10 @@ export default function Home() {
         <div className="modal">
           <div className="modal-box w-11/12 max-w-5xl">
             {/* <h3 className="font-bold text-lg">All Exercises!</h3> */}
-            <div className="flex flex-wrap gap-5">
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
+            <div className="flex flex-wrap gap-3">
+              {
+                  list.map( item => <Card title={item.title} duration={item.duration} status={item.status} />)
+                  }      
             </div>
             <div className="modal-action">
               <label htmlFor="my-modal-5" className="btn btn-error">Close!</label>

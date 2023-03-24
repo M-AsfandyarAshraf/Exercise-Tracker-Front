@@ -224,7 +224,7 @@ export default function Home() {
             {/* <h3 className="font-bold text-lg">All Exercises!</h3> */}
             <div className="flex flex-wrap gap-3">
               {
-                  list.map( item => <Card title={item.title} duration={item.duration} status={item.status} />)
+                  list.map( item => <Card key={item._id} title={item.title} duration={item.duration} status={item.status} />)
                   }      
             </div>
             <div className="modal-action">

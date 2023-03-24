@@ -72,7 +72,7 @@ const router = useRouter();
   return (
     <>
     <div className=' h-screen flex flex-col gap-4 justify-center items-center ' style={inter.style}> 
-    <Image src={"/../public/Logo.png"} width = {100} height={100} alt={"Exercise Tracker Logo"} className=" h-32 w-auto"></Image>
+    <Image src={"/Logo.png"} width = {100} height={100} alt={"Exercise Tracker Logo"} className=" h-32 w-auto"></Image>
     <h1 className='text-7xl '>Log-In</h1>
     <span className='text-7lg '>New User?
       <Link href={'/signup'}><span className='text-7lg text-blue-500'> Create Account</span></Link>
